@@ -1,4 +1,4 @@
-const https = require('https'),
+const http = require('http'),
     https = require('https'),
     fs = require('fs'),
     config = require('./config.json'),
@@ -11,7 +11,7 @@ const https = require('https'),
     app = (req, res) => {
 
       // HTTP(S) proxy.
-      if (req.url.startsWith(config.prefix)) return proxy.https(req, res); 
+      if (req.url.startsWith(config.prefix)) return proxy.http(req, res); 
 
       req.pathname = req.url.split('#')[0].split('?')[0];
       req.query = {};
@@ -20,7 +20,7 @@ const https = require('https'),
       if (req.query.url && (req.pathname == '/prox' || req.pathname == '/prox/' || req.pathname == '/session' || req.pathname == '/session/')) {
         var url = atob(req.query.url);
 
-        if (url.startsWith('https://') || url.startsWith('https://')) url = url;
+        if (url.startsWith('https://') || url.startsWith('http://')) url = url;
         else if (url.startsWith('//')) url = 'https:' + url;
         else url = 'https://' + url;
 
@@ -44,12 +44,12 @@ const https = require('https'),
       });
 
     },
-    server = config.ssl ? https.createServer({key: fs.readFileSync('./ssl/default.key'), cert: fs.readFileSync('./ssl/default.crt')}, app) : https.createServer(app);
+    server = config.ssl ? https.createServer({key: fs.readFileSync('./ssl/default.key'), cert: fs.readFileSync('./ssl/default.crt')}, app) : http.createServer(app);
 
 // Websocket proxy.
 proxy.ws(server);
 
-server.listen(process.env.PORT || config.port, () => console.log(`${config.ssl ? 'https://' : 'https://'}0.0.0.0:${config.port}`))
+server.listen(process.env.PORT || config.port, () => console.log(`${config.ssl ? 'https://' : 'http://'}0.0.0.0:${config.port}`))
 
 
 
