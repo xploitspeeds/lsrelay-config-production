@@ -1,0 +1,7 @@
+{
+    "port": "8080",
+    "ssl": false,
+    "prefix": "/26077b3a606b9f8c810cb003939fd8900fc0cba3b434f236de105cd2357ae6a6/",
+    "localAddresses": [],
+    "blockedHostnames": []
+}
