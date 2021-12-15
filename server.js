@@ -21,8 +21,8 @@ const http = require('http'),
         var url = atob(req.query.url);
 
         if (url.startsWith('https://') || url.startsWith('http://')) url = url;
-        else if (url.startsWith('//')) url = 'https:' + url;
-        else url = 'https://' + url;
+        else if (url.startsWith('//')) url = 'http:' + url;
+        else url = 'http://' + url;
 
         return (res.writeHead(301, { location: config.prefix + proxy.proxifyRequestURL(url) }), res.end(''));
       }
